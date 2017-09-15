@@ -37,11 +37,8 @@ namespace SnakeGameUI.UserControls
         }
 
         private void HighscoreButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewHighscoreWindow window = new ViewHighscoreWindow();
-            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            window.Owner = App.Current.MainWindow;
-            window.ShowDialog();
+        {         
+            (App.Current.MainWindow as MainWindow).ShowHighscore();
         }
     }
 }

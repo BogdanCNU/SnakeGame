@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SnakeGameUI
+namespace SnakeGameUI.UserControls
 {
     /// <summary>
-    /// Interaction logic for ViewHighscoreWindow.xaml
+    /// Interaction logic for HighscoreUserControl.xaml
     /// </summary>
-    public partial class ViewHighscoreWindow : Window
+    public partial class HighscoreUserControl : UserControl
     {
-        public ViewHighscoreWindow()
+        public HighscoreUserControl()
         {
             InitializeComponent();
         }

@@ -30,6 +30,14 @@ namespace SnakeGameUI
         {
             GameUserControl uc = new GameUserControl(playerName);
             this.Content = uc;
+
         }
+
+        public void ShowHighscore()
+        {
+            HighscoreUserControl huc = new HighscoreUserControl();
+            this.Content = huc;
+        }
+
     }
 }

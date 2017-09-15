@@ -14,7 +14,7 @@
                 <DropShadowEffect Color="#FF0F0808"/>
             </Button.Effect>
         </Button>
-        <Button x:Name="HighscoreButton" Content="Highscore" Width="174" Height="58" FontSize="24" BorderThickness="2" >
+        <Button x:Name="HighscoreButton" Click="HighscoreButton_Click" Content="Highscore" Width="174" Height="58" FontSize="24" BorderThickness="2" >
             <Button.Effect>
                 <DropShadowEffect Color="#FF0F0808"/>
             </Button.Effect>

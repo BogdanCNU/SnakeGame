@@ -56,11 +56,11 @@
     <Compile Include="UserControls\GameUserControl.xaml.cs">
       <DependentUpon>GameUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\HighscoreUserControl.xaml.cs">
+      <DependentUpon>HighscoreUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\StartMenuUserControl.xaml.cs">
       <DependentUpon>StartMenuUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewHighscoreWindow.xaml.cs">
-      <DependentUpon>ViewHighscoreWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="InsertPlayerNameWindow.xaml">
       <SubType>Designer</SubType>
@@ -85,11 +85,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\StartMenuUserControl.xaml">
+    <Page Include="UserControls\HighscoreUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewHighscoreWindow.xaml">
+    <Page Include="UserControls\StartMenuUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
