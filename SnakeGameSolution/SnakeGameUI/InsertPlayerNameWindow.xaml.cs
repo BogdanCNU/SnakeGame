@@ -10,27 +10,30 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SnakeGameUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for InsertPlayerNameWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class InsertPlayerNameWindow : Window
     {
-        public MainWindow()
+        public string PlayerName
+        {
+            get;
+            set;
+        }
+
+        public InsertPlayerNameWindow()
         {
             InitializeComponent();
         }
 
-        private void StartGameButton_Click(object sender, RoutedEventArgs e)
+        private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            InsertPlayerNameWindow window = new InsertPlayerNameWindow();
-            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            window.Owner = this;
-            window.ShowDialog();
+            PlayerName = UsernameTextBox.Text;
+            this.Close();
         }
     }
 }
