@@ -1,5 +1,4 @@
-﻿using SnakeGameUI.UserControls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SnakeGameUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ViewHighscoreWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ViewHighscoreWindow : Window
     {
-        public MainWindow()
+        public ViewHighscoreWindow()
         {
             InitializeComponent();
-        }
-
-        public void StartNewGame(string playerName)
-        {
-            GameUserControl uc = new GameUserControl(playerName);
-            this.Content = uc;
         }
     }
 }

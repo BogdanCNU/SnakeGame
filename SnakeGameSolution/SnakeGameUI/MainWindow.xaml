@@ -3,24 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc="clr-namespace:SnakeGameUI.UserControls"
         xmlns:local="clr-namespace:SnakeGameUI"
         mc:Ignorable="d"
         Title="Game Menu" Height="350" Width="525" MinHeight="350" MinWidth="525">
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="D:/Snake.png" Stretch="UniformToFill"/>
-        </Grid.Background>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="StartGameButton" Content="Start Game" Click="StartGameButton_Click" Margin="0, 0, 0, 50" Width="174" Height="58" FontSize="24" BorderThickness="2">
-            <Button.Effect>
-                <DropShadowEffect Color="#FF0F0808" RenderingBias="Quality"/>
-            </Button.Effect>
-        </Button>
-        <Button x:Name="HighscoreButton" Content="Highscore" Width="174" Height="58" FontSize="24" BorderThickness="2">
-            <Button.Effect>
-                <DropShadowEffect Color="#FF0F0808"/>
-            </Button.Effect>
-        </Button>
-     </StackPanel>
-    </Grid>
+    <uc:StartMenuUserControl/>
 </Window>

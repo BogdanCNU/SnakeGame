@@ -1,5 +1,4 @@
-﻿using SnakeGameUI.UserControls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,22 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SnakeGameUI
+namespace SnakeGameUI.UserControls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GameUserControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GameUserControl : UserControl
     {
-        public MainWindow()
+        public GameUserControl(string playerName)
         {
             InitializeComponent();
-        }
 
-        public void StartNewGame(string playerName)
-        {
-            GameUserControl uc = new GameUserControl(playerName);
-            this.Content = uc;
+            textBlockPlayerName.Text = playerName;
         }
     }
 }
