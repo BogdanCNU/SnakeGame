@@ -53,6 +53,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Logic\GameLogic.cs" />
     <Compile Include="UserControls\GameUserControl.xaml.cs">
       <DependentUpon>GameUserControl.xaml</DependentUpon>
     </Compile>
@@ -120,5 +121,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
