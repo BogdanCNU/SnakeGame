@@ -40,7 +40,7 @@ namespace SnakeGameUI.UserControls
             
 
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(2000);
+            timer.Interval = TimeSpan.FromMilliseconds(150);
             timer.Tick += Timer_Tick;
             timer.Start();
         }

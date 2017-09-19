@@ -10,18 +10,18 @@ namespace SnakeGameUI.Logic
 {
     public class GameLogic : DependencyObject
     {
-        
+
         public List<Point> points { get; set; }
 
         public string PlayerName
         {
-           get { return (string)GetValue(PlayerNameProperty); }
+            get { return (string)GetValue(PlayerNameProperty); }
             set { SetValue(PlayerNameProperty, value); }
         }
 
-         // Using a DependencyProperty as the backing store for PlayerName.  This enables animation, styling, binding, etc...
-         public static readonly DependencyProperty PlayerNameProperty =
-           DependencyProperty.Register("PlayerName", typeof(string), typeof(GameLogic));
+        // Using a DependencyProperty as the backing store for PlayerName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlayerNameProperty =
+          DependencyProperty.Register("PlayerName", typeof(string), typeof(GameLogic));
 
         public int Score
         {
@@ -86,7 +86,7 @@ namespace SnakeGameUI.Logic
 
 
 
-        public GameLogic( string playerName)
+        public GameLogic(string playerName)
         {
             this.PlayerName = playerName;
             this.Score = 0;
@@ -99,7 +99,7 @@ namespace SnakeGameUI.Logic
             GenerateItem();
         }
 
-        
+
         private void GenerateItem()
         {
             Random rnd = new Random();
@@ -107,24 +107,47 @@ namespace SnakeGameUI.Logic
             this.ItemLeft = rnd.Next(10, (int)this.AreaWidth - 10);
         }
 
+        private int movementUnit = 10;
+
         internal void MoveSnakeUp()
         {
-            //throw new NotImplementedException();
+            Point headPoint = points.First();
+            // add new point
+            Point newPoint = new Point(headPoint.X, headPoint.Y - movementUnit);
+            points.Insert(0, newPoint);
+
+            //remove tail
+            points.RemoveAt(points.Count - 1);
         }
 
         internal void MoveSnakeDown()
         {
-            //throw new NotImplementedException();
+            Point headPoint = points.Last();
+            // add new point
+            Point newPoint = new Point(headPoint.X, headPoint.Y + movementUnit);
+            points.Insert(points.Count, newPoint);
+            // remove tail
+            points.RemoveAt(0);
         }
 
         internal void MoveSnakeRight()
         {
-           // throw new NotImplementedException();
+            Point headPoint = points.First();
+            // add new point
+            Point newPoint = new Point(headPoint.X + movementUnit, headPoint.Y);
+            points.Insert(0, newPoint);
+            // remove tail
+            points.RemoveAt(points.Count - 1);
         }
 
         internal void MoveSnakeLeft()
         {
-            //throw new NotImplementedException();
+            Point headPoint = points.First();
+            // add new point
+            Point newPoint = new Point(headPoint.X - movementUnit, headPoint.Y);
+            points.Insert(0, newPoint);
+            // remove tail
+            points.RemoveAt(points.Count - 1);
         }
 
     }
