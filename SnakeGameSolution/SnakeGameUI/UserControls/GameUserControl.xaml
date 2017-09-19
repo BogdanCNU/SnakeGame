@@ -12,9 +12,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Viewbox>
-        <Canvas Name="gamecanvas" Background="Black" 
+            <Canvas Name="gamecanvas" Background="Black" 
                 Width="{Binding Path=AreaWidth}"
-                Height="{Binding Path=AreaHeight}"/>
+                Height="{Binding Path=AreaHeight}">
+                <Ellipse Fill="Red" Width="10" Height="10" Canvas.Left="{Binding Path = ItemLeft}"
+                         Canvas.Top="{Binding Path = ItemTop}"></Ellipse>
+            </Canvas>
         </Viewbox>
         <StackPanel Grid.Column="1"  Background="White">
             <TextBlock Text="Player Name:"/>

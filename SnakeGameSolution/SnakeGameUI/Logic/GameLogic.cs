@@ -59,15 +59,48 @@ namespace SnakeGameUI.Logic
 
 
 
+
+        public int ItemTop
+        {
+            get { return (int)GetValue(ItemTopProperty); }
+            set { SetValue(ItemTopProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemTop.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemTopProperty =
+            DependencyProperty.Register("ItemTop", typeof(int), typeof(GameLogic), new PropertyMetadata(0));
+
+
+
+        public int ItemLeft
+        {
+            get { return (int)GetValue(ItemLeftProperty); }
+            set { SetValue(ItemLeftProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemLeft.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemLeftProperty =
+            DependencyProperty.Register("ItemLeft", typeof(int), typeof(GameLogic), new PropertyMetadata(0));
+
+
+
+
+
         public GameLogic( string playerName)
         {
             this.PlayerName = playerName;
             this.Score = 0;
             this.points = new List<Point>();
+            GenerateItem();
         }
 
 
-
+        private void GenerateItem()
+        {
+            Random rnd = new Random();
+            this.ItemTop = rnd.Next(10, (int)this.AreaHeight - 10);
+            this.ItemLeft = rnd.Next(10, (int)this.AreaWidth - 10);
+        }
 
     }
 }
