@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SnakeGameUI.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="500">
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="500"
+             KeyUp="UserControl_KeyUp">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
@@ -17,14 +18,15 @@
                 Height="{Binding Path=AreaHeight}">
                 <Ellipse Fill="Red" Width="10" Height="10" Canvas.Left="{Binding Path = ItemLeft}"
                          Canvas.Top="{Binding Path = ItemTop}"></Ellipse>
+                <Polyline Name="SnakeLine"  Stroke="Red" StrokeThickness="5"/>
             </Canvas>
         </Viewbox>
         <StackPanel Grid.Column="1"  Background="White">
             <TextBlock Text="Player Name:"/>
-            <TextBox Name="textBoxPlayerName"
+            <TextBlock Name="textBoxPlayerName"
                      Text="{Binding Path=PlayerName}"/>
             <TextBlock Text="Score:" Name="textBlockScore"/>
-            <TextBox Name="textBoxScore"
+            <TextBlock Name="textBoxScore"
                      Text="{Binding Path=Score}"/>
         </StackPanel>
         </Grid>

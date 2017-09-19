@@ -36,7 +36,8 @@ namespace SnakeGameUI.UserControls
             game = new GameLogic(playerName);
             this.DataContext = game;
 
-           
+            this.IsVisibleChanged += GameUserControl_IsVisibleChanged;
+            
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(2000);
@@ -44,9 +45,47 @@ namespace SnakeGameUI.UserControls
             timer.Start();
         }
 
+        private void GameUserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (this.IsVisible)
+            {
+                this.Focusable = true;
+                Keyboard.Focus(this);
+            }
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             textBoxScore.Text += (x++);
+            DrawSnake();
+        }
+
+        private void DrawSnake()
+        {
+            SnakeLine.Points.Clear();
+            foreach(Point p in game.points)
+            {
+                SnakeLine.Points.Add(p);
+            }
+        }
+
+        private void UserControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Up:
+                    game.MoveSnakeUp();
+                    break;
+                case Key.Down:
+                    game.MoveSnakeDown();
+                    break;
+                case Key.Right:
+                    game.MoveSnakeRight();
+                    break;
+                case Key.Left:
+                    game.MoveSnakeLeft();
+                    break;
+            }
         }
     }
 }

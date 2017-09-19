@@ -8,10 +8,10 @@ using System.Windows;
 
 namespace SnakeGameUI.Logic
 {
-    class GameLogic : DependencyObject
+    public class GameLogic : DependencyObject
     {
         
-        List<Point> points;
+        public List<Point> points { get; set; }
 
         public string PlayerName
         {
@@ -91,15 +91,40 @@ namespace SnakeGameUI.Logic
             this.PlayerName = playerName;
             this.Score = 0;
             this.points = new List<Point>();
+            this.points.Add(new Point(50, 200));
+            this.points.Add(new Point(58, 200));
+            this.points.Add(new Point(58, 100));
+            this.points.Add(new Point(150, 100));
+            this.points.Add(new Point(150, 200));
             GenerateItem();
         }
 
-
+        
         private void GenerateItem()
         {
             Random rnd = new Random();
             this.ItemTop = rnd.Next(10, (int)this.AreaHeight - 10);
             this.ItemLeft = rnd.Next(10, (int)this.AreaWidth - 10);
+        }
+
+        internal void MoveSnakeUp()
+        {
+            //throw new NotImplementedException();
+        }
+
+        internal void MoveSnakeDown()
+        {
+            //throw new NotImplementedException();
+        }
+
+        internal void MoveSnakeRight()
+        {
+           // throw new NotImplementedException();
+        }
+
+        internal void MoveSnakeLeft()
+        {
+            //throw new NotImplementedException();
         }
 
     }
