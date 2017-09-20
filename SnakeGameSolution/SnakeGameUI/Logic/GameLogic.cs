@@ -122,12 +122,12 @@ namespace SnakeGameUI.Logic
 
         internal void MoveSnakeDown()
         {
-            Point headPoint = points.Last();
+            Point headPoint = points.First();
             // add new point
             Point newPoint = new Point(headPoint.X, headPoint.Y + movementUnit);
-            points.Insert(points.Count, newPoint);
+            points.Insert(0, newPoint);
             // remove tail
-            points.RemoveAt(0);
+            points.RemoveAt(points.Count - 1);
         }
 
         internal void MoveSnakeRight()
