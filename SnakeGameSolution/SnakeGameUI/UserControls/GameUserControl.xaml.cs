@@ -54,10 +54,13 @@ namespace SnakeGameUI.UserControls
             }
         }
 
+        private Key lastKey;
+
         private void Timer_Tick(object sender, EventArgs e)
         {
-            textBoxScore.Text += (x++);
+            MoveSnake();
             DrawSnake();
+            
         }
 
         private void DrawSnake()
@@ -71,7 +74,12 @@ namespace SnakeGameUI.UserControls
 
         private void UserControl_KeyUp(object sender, KeyEventArgs e)
         {
-            switch (e.Key)
+            lastKey = e.Key;
+        }
+
+        private void MoveSnake()
+        {
+            switch (lastKey)
             {
                 case Key.Up:
                     game.MoveSnakeUp();

@@ -43,7 +43,7 @@ namespace SnakeGameUI.Logic
 
         // Using a DependencyProperty as the backing store for AreaWidth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AreaWidthProperty =
-            DependencyProperty.Register("AreaWidth", typeof(double), typeof(GameLogic), new PropertyMetadata(400.0));
+            DependencyProperty.Register("AreaWidth", typeof(double), typeof(GameLogic), new PropertyMetadata(500.0));
 
 
 
@@ -55,7 +55,7 @@ namespace SnakeGameUI.Logic
 
         // Using a DependencyProperty as the backing store for AreaHeight.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AreaHeightProperty =
-            DependencyProperty.Register("AreaHeight", typeof(double), typeof(GameLogic), new PropertyMetadata(400.0));
+            DependencyProperty.Register("AreaHeight", typeof(double), typeof(GameLogic), new PropertyMetadata(500.0));
 
 
 
@@ -91,11 +91,11 @@ namespace SnakeGameUI.Logic
             this.PlayerName = playerName;
             this.Score = 0;
             this.points = new List<Point>();
-            this.points.Add(new Point(50, 200));
-            this.points.Add(new Point(58, 200));
-            this.points.Add(new Point(58, 100));
-            this.points.Add(new Point(150, 100));
-            this.points.Add(new Point(150, 200));
+            this.points.Add(new Point(100, 100));
+            this.points.Add(new Point(110, 100));
+            this.points.Add(new Point(120, 100));
+            this.points.Add(new Point(130, 100));
+            this.points.Add(new Point(140, 100));
             GenerateItem();
         }
 
@@ -103,14 +103,15 @@ namespace SnakeGameUI.Logic
         private void GenerateItem()
         {
             Random rnd = new Random();
-            this.ItemTop = rnd.Next(10, (int)this.AreaHeight - 10);
-            this.ItemLeft = rnd.Next(10, (int)this.AreaWidth - 10);
+            this.ItemTop = rnd.Next(20, (int)this.AreaHeight - 20);
+            this.ItemLeft = rnd.Next(20, (int)this.AreaWidth - 20);
         }
 
         private int movementUnit = 10;
 
         internal void MoveSnakeUp()
         {
+
             Point headPoint = points.First();
             // add new point
             Point newPoint = new Point(headPoint.X, headPoint.Y - movementUnit);
@@ -118,6 +119,23 @@ namespace SnakeGameUI.Logic
 
             //remove tail
             points.RemoveAt(points.Count - 1);
+
+            if(headPoint.Y > 500)
+            {
+                headPoint.X = headPoint.X;
+                headPoint.Y = 0;
+            }
+
+
+            if (headPoint.X >= this.ItemLeft -8 && headPoint.X <= this.ItemLeft + 8
+                && headPoint.Y >= this.ItemTop - 8 && headPoint.Y <= this.ItemTop + 8)
+            {
+                GenerateItem();
+                points.Insert(0, newPoint);
+                this.Score += 10;
+                
+            }
+
         }
 
         internal void MoveSnakeDown()
@@ -128,6 +146,20 @@ namespace SnakeGameUI.Logic
             points.Insert(0, newPoint);
             // remove tail
             points.RemoveAt(points.Count - 1);
+
+            if (headPoint.Y > 500)
+            {
+                headPoint.X = headPoint.X;
+                headPoint.Y = 0;
+            }
+
+            if (headPoint.X >= this.ItemLeft - 8 && headPoint.X <= this.ItemLeft + 8
+                && headPoint.Y >= this.ItemTop - 8 && headPoint.Y <= this.ItemTop + 8)
+            {
+                GenerateItem();
+                points.Insert(0, newPoint);
+                this.Score += 10;
+            }
         }
 
         internal void MoveSnakeRight()
@@ -138,6 +170,20 @@ namespace SnakeGameUI.Logic
             points.Insert(0, newPoint);
             // remove tail
             points.RemoveAt(points.Count - 1);
+
+            if (headPoint.Y > 500)
+            {
+                headPoint.X = headPoint.X;
+                headPoint.Y = 0;
+            }
+
+            if (headPoint.X >= this.ItemLeft - 8 && headPoint.X <= this.ItemLeft + 8
+                && headPoint.Y >= this.ItemTop - 8 && headPoint.Y <= this.ItemTop + 8)
+            {
+                GenerateItem();
+                points.Insert(0, newPoint);
+                this.Score += 10;
+            }
         }
 
         internal void MoveSnakeLeft()
@@ -148,6 +194,20 @@ namespace SnakeGameUI.Logic
             points.Insert(0, newPoint);
             // remove tail
             points.RemoveAt(points.Count - 1);
+
+            if (headPoint.Y > 500)
+            {
+                headPoint.X = headPoint.X;
+                headPoint.Y = 0;
+            }
+
+            if (headPoint.X >= this.ItemLeft - 8 && headPoint.X <= this.ItemLeft + 8
+                && headPoint.Y >= this.ItemTop - 8 && headPoint.Y <= this.ItemTop + 8)
+            {
+                GenerateItem();
+                points.Insert(0, newPoint);
+                this.Score += 10;
+            }
         }
 
     }

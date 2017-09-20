@@ -5,27 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SnakeGameUI.UserControls"
              mc:Ignorable="d"
-             d:DesignHeight="400" d:DesignWidth="500"
+             d:DesignHeight="500" d:DesignWidth="500"
              KeyUp="UserControl_KeyUp">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Viewbox>
+        <Viewbox Width="{Binding Path=AreaWidth}" Height="{Binding Path=AreaHeight}">
             <Canvas Name="gamecanvas" Background="Black" 
                 Width="{Binding Path=AreaWidth}"
                 Height="{Binding Path=AreaHeight}">
-                <Ellipse Fill="Red" Width="10" Height="10" Canvas.Left="{Binding Path = ItemLeft}"
+                <Ellipse Fill="Red" Width="12" Height="12" Canvas.Left="{Binding Path = ItemLeft}"
                          Canvas.Top="{Binding Path = ItemTop}"></Ellipse>
-                <Polyline Name="SnakeLine"  Stroke="Red" StrokeThickness="5"/>
+                <Polyline Name="SnakeLine"  Stroke="Red" StrokeThickness="8"/>
             </Canvas>
         </Viewbox>
-        <StackPanel Grid.Column="1"  Background="White">
-            <TextBlock Text="Player Name:"/>
+        <StackPanel Grid.Column="1">
+            <StackPanel.Background>
+               <ImageBrush ImageSource="D:/Snake.png" Stretch="UniformToFill"/>
+            </StackPanel.Background>
+            <TextBlock Text="Player Name:" FontSize="14"/>
             <TextBlock Name="textBoxPlayerName"
                      Text="{Binding Path=PlayerName}"/>
-            <TextBlock Text="Score:" Name="textBlockScore"/>
+            <TextBlock Text="Score:" FontSize="14"/>
             <TextBlock Name="textBoxScore"
                      Text="{Binding Path=Score}"/>
         </StackPanel>
