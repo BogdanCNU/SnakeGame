@@ -65,10 +65,17 @@ namespace SnakeGameUI.UserControls
 
         private void DrawSnake()
         {
-            SnakeLine.Points.Clear();
-            foreach(Point p in game.points)
+            canvasSnake.Children.Clear();
+            foreach(List<Point> points in game.snakepoints)
             {
-                SnakeLine.Points.Add(p);
+                Polyline snakeLine = new Polyline();
+                snakeLine.Stroke = Brushes.Red;
+                snakeLine.StrokeThickness = 8;
+                foreach (Point p in points)
+                {
+                    snakeLine.Points.Add(p);
+                }
+                canvasSnake.Children.Add(snakeLine);
             }
         }
 

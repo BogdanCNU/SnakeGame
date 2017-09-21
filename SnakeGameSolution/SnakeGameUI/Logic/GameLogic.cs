@@ -11,7 +11,7 @@ namespace SnakeGameUI.Logic
     public class GameLogic : DependencyObject
     {
 
-        public List<Point> points { get; set; }
+        public List<List<Point>> snakepoints { get; set; }
 
         public string PlayerName
         {
@@ -83,19 +83,19 @@ namespace SnakeGameUI.Logic
             DependencyProperty.Register("ItemLeft", typeof(int), typeof(GameLogic), new PropertyMetadata(0));
 
 
-
-
-
         public GameLogic(string playerName)
         {
             this.PlayerName = playerName;
             this.Score = 0;
-            this.points = new List<Point>();
-            this.points.Add(new Point(100, 100));
-            this.points.Add(new Point(110, 100));
-            this.points.Add(new Point(120, 100));
-            this.points.Add(new Point(130, 100));
-            this.points.Add(new Point(140, 100));
+            snakepoints = new List<List<Point>>();
+            List<Point> points = new List<Point>();
+            points.Add(new Point(100, 100));
+            points.Add(new Point(110, 100));
+            points.Add(new Point(120, 100));
+            points.Add(new Point(130, 100));
+            points.Add(new Point(140, 100));
+
+            this.snakepoints.Add(points);
             GenerateItem();
         }
 
@@ -108,104 +108,197 @@ namespace SnakeGameUI.Logic
         }
 
         private int movementUnit = 10;
+        private int errormargin = 8;
 
         internal void MoveSnakeUp()
         {
-
-            Point headPoint = points.First();
+            List<Point> headpoints = snakepoints.First();
+            List<Point> tailpoints = snakepoints.Last();
+            Point headPoint = headpoints.First();
             // add new point
             Point newPoint = new Point(headPoint.X, headPoint.Y - movementUnit);
-            points.Insert(0, newPoint);
 
-            //remove tail
-            points.RemoveAt(points.Count - 1);
-
-            if(headPoint.Y > 500)
+            if (newPoint.Y > 0 && newPoint.Y < AreaHeight)
             {
-                headPoint.X = headPoint.X;
-                headPoint.Y = 0;
+                headpoints.Insert(0, newPoint);
+            }
+            else
+            {
+                // modificare ultim punct pana in capat
+                Point pointToScreenMargin = new Point(headPoint.X, 0);
+                headpoints.Insert(0, pointToScreenMargin);
+
+                // punct nou generat in celalat capat al ecranului
+                newPoint.Y = AreaHeight;
+
+                // linie generata in celalat capat al ecranului
+                Point additionalpoint = new Point(newPoint.X, newPoint.Y - movementUnit);
+                List<Point> newpoints = new List<Point>();
+                newpoints.Add(additionalpoint);
+                newpoints.Add(newPoint);
+                snakepoints.Insert(0, newpoints);
+                tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
+            if (tailpoints.Count == 2)
+            {
+                snakepoints.Remove(tailpoints);
+            }
+            else
+            {
+                tailpoints.RemoveAt(tailpoints.Count - 1);
+            }
 
-            if (headPoint.X >= this.ItemLeft -8 && headPoint.X <= this.ItemLeft + 8
-                && headPoint.Y >= this.ItemTop - 8 && headPoint.Y <= this.ItemTop + 8)
+            if (headPoint.X >= this.ItemLeft - errormargin && headPoint.X <= this.ItemLeft + errormargin
+                && headPoint.Y >= this.ItemTop - errormargin && headPoint.Y <= this.ItemTop + errormargin)
             {
                 GenerateItem();
-                points.Insert(0, newPoint);
+                headpoints.Insert(0, newPoint);
                 this.Score += 10;
-                
             }
 
         }
 
         internal void MoveSnakeDown()
         {
-            Point headPoint = points.First();
+            List<Point> headpoints = snakepoints.First();
+            List<Point> tailpoints = snakepoints.Last();
+            Point headPoint = headpoints.First();
             // add new point
             Point newPoint = new Point(headPoint.X, headPoint.Y + movementUnit);
-            points.Insert(0, newPoint);
-            // remove tail
-            points.RemoveAt(points.Count - 1);
 
-            if (headPoint.Y > 500)
+            if (newPoint.Y > 0 && newPoint.Y < AreaHeight)
             {
-                headPoint.X = headPoint.X;
-                headPoint.Y = 0;
+                headpoints.Insert(0, newPoint);
+            }
+            else
+            {
+                // modificare ultim punct pana in capat
+                Point pointToScreenMargin = new Point(headPoint.X, this.AreaHeight);
+                headpoints.Insert(0, pointToScreenMargin);
+
+                // punct nou generat in celalat capat al ecranului
+                newPoint.Y = 0;
+
+                // linie generata in celalat capat al ecranului
+                Point additionalpoint = new Point(newPoint.X, newPoint.Y + movementUnit);
+                List<Point> newpoints = new List<Point>();
+                newpoints.Add(additionalpoint);
+                newpoints.Add(newPoint);
+                snakepoints.Insert(0, newpoints);
+                tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (headPoint.X >= this.ItemLeft - 8 && headPoint.X <= this.ItemLeft + 8
-                && headPoint.Y >= this.ItemTop - 8 && headPoint.Y <= this.ItemTop + 8)
+            if (tailpoints.Count == 2)
+            {
+                snakepoints.Remove(tailpoints);
+            }
+            else
+            {
+                tailpoints.RemoveAt(tailpoints.Count - 1);
+            }
+
+            if (headPoint.X >= this.ItemLeft - errormargin && headPoint.X <= this.ItemLeft + errormargin
+                && headPoint.Y >= this.ItemTop - errormargin && headPoint.Y <= this.ItemTop + errormargin)
             {
                 GenerateItem();
-                points.Insert(0, newPoint);
+                headpoints.Insert(0, newPoint);
                 this.Score += 10;
             }
         }
 
         internal void MoveSnakeRight()
         {
-            Point headPoint = points.First();
+            List<Point> headpoints = snakepoints.First();
+            List<Point> tailpoints = snakepoints.Last();
+            Point headPoint = headpoints.First();
             // add new point
             Point newPoint = new Point(headPoint.X + movementUnit, headPoint.Y);
-            points.Insert(0, newPoint);
-            // remove tail
-            points.RemoveAt(points.Count - 1);
 
-            if (headPoint.Y > 500)
+            if (newPoint.X > 0 && newPoint.X < AreaWidth)
             {
-                headPoint.X = headPoint.X;
-                headPoint.Y = 0;
+                headpoints.Insert(0, newPoint);
+            }
+            else
+            {
+                // modificare ultim punct pana in capat
+                Point pointToScreenMargin = new Point(this.AreaWidth, headPoint.Y);
+                headpoints.Insert(0, pointToScreenMargin);
+
+                // punct nou generat in celalat capat al ecranului
+                newPoint.X = 0;
+
+                // linie generata in celalat capat al ecranului
+                Point additionalpoint = new Point(newPoint.X + movementUnit, newPoint.Y);
+                List<Point> newpoints = new List<Point>();
+                newpoints.Add(additionalpoint);
+                newpoints.Add(newPoint);
+                snakepoints.Insert(0, newpoints);
+                tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (headPoint.X >= this.ItemLeft - 8 && headPoint.X <= this.ItemLeft + 8
-                && headPoint.Y >= this.ItemTop - 8 && headPoint.Y <= this.ItemTop + 8)
+            if (tailpoints.Count == 2)
+            {
+                snakepoints.Remove(tailpoints);
+            }
+            else
+            {
+                tailpoints.RemoveAt(tailpoints.Count - 1);
+            }
+
+            if (headPoint.X >= this.ItemLeft - errormargin && headPoint.X <= this.ItemLeft + errormargin
+                && headPoint.Y >= this.ItemTop - errormargin && headPoint.Y <= this.ItemTop + errormargin)
             {
                 GenerateItem();
-                points.Insert(0, newPoint);
+                headpoints.Insert(0, newPoint);
                 this.Score += 10;
             }
         }
 
         internal void MoveSnakeLeft()
         {
-            Point headPoint = points.First();
+            List<Point> headpoints = snakepoints.First();
+            List<Point> tailpoints = snakepoints.Last();
+            Point headPoint = headpoints.First();
             // add new point
             Point newPoint = new Point(headPoint.X - movementUnit, headPoint.Y);
-            points.Insert(0, newPoint);
-            // remove tail
-            points.RemoveAt(points.Count - 1);
 
-            if (headPoint.Y > 500)
+            if (newPoint.X > 0 && newPoint.X < AreaWidth)
             {
-                headPoint.X = headPoint.X;
-                headPoint.Y = 0;
+                headpoints.Insert(0, newPoint);
+            }
+            else
+            {
+                // modificare ultim punct pana in capat
+                Point pointToScreenMargin = new Point(0, headPoint.Y);
+                headpoints.Insert(0, pointToScreenMargin);
+
+                // punct nou generat in celalat capat al ecranului
+                newPoint.X = AreaWidth;
+
+                // linie generata in celalat capat al ecranului
+                Point additionalpoint = new Point(newPoint.X - movementUnit, newPoint.Y);
+                List<Point> newpoints = new List<Point>();
+                newpoints.Add(additionalpoint);
+                newpoints.Add(newPoint);
+                snakepoints.Insert(0, newpoints);
+                tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (headPoint.X >= this.ItemLeft - 8 && headPoint.X <= this.ItemLeft + 8
-                && headPoint.Y >= this.ItemTop - 8 && headPoint.Y <= this.ItemTop + 8)
+            if (tailpoints.Count == 2)
+            {
+                snakepoints.Remove(tailpoints);
+            }
+            else
+            {
+                tailpoints.RemoveAt(tailpoints.Count - 1);
+            }
+
+            if (headPoint.X >= this.ItemLeft - errormargin && headPoint.X <= this.ItemLeft + errormargin
+                && headPoint.Y >= this.ItemTop - errormargin && headPoint.Y <= this.ItemTop + errormargin)
             {
                 GenerateItem();
-                points.Insert(0, newPoint);
+                headpoints.Insert(0, newPoint);
                 this.Score += 10;
             }
         }
