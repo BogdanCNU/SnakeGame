@@ -26,6 +26,13 @@ namespace SnakeGameUI
             InitializeComponent();
         }
 
+        public void ShowStartMenu()
+        {
+            StartMenuUserControl uc = new StartMenuUserControl();
+            this.Content = uc;
+
+        }
+
         public void StartNewGame(string playerName)
         {
             GameUserControl uc = new GameUserControl(playerName);

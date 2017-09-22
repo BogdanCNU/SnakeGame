@@ -9,6 +9,8 @@ using System.Windows;
 
 namespace SnakeGameUI.Logic
 {
+    public delegate void GameEnded();
+
     public class GameLogic : DependencyObject
     {
         public List<List<Point>> snakepoints { get; set; }
@@ -82,6 +84,8 @@ namespace SnakeGameUI.Logic
         public static readonly DependencyProperty ItemLeftProperty =
             DependencyProperty.Register("ItemLeft", typeof(int), typeof(GameLogic), new PropertyMetadata(0));
 
+
+        public event GameEnded GameEndedEvent;
 
         public GameLogic(string playerName)
         {
@@ -208,19 +212,23 @@ namespace SnakeGameUI.Logic
 
             if (IsGameOver())
             {
-                MessageBox.Show("GameOver");
+                // daca nu e nimeni abonat la eveniment, eventul e null
+                if (GameEndedEvent != null)
+                {
+                    this.GameEndedEvent();
+                }
             }
 
         }
 
         internal void MoveSnakeUp()
         {
-            MoveSnakeVertical(-movementUnit, 0, AreaHeight);
+            MoveSnakeVertical(-movementUnit, AreaHeight, 0);
         }
 
         internal void MoveSnakeDown()
         {
-            MoveSnakeVertical(movementUnit, AreaHeight, 0);
+            MoveSnakeVertical(movementUnit, 0, AreaHeight);
         }
 
         internal void MoveSnakeRight()
@@ -268,7 +276,11 @@ namespace SnakeGameUI.Logic
 
             if (IsGameOver())
             {
-                MessageBox.Show("GameOver");
+                // daca nu e nimeni abonat la eveniment, eventul e null
+                if (GameEndedEvent != null)
+                {
+                    this.GameEndedEvent();
+                }
             }
         }
 
@@ -317,9 +329,12 @@ namespace SnakeGameUI.Logic
 
             if (IsGameOver())
             {
-                MessageBox.Show("GameOver");
+                // daca nu e nimeni abonat la eveniment, eventul e null
+                if (GameEndedEvent != null)
+                {
+                    this.GameEndedEvent();
+                }
             }
-
         }
 
     }

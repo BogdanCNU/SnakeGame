@@ -34,15 +34,25 @@ namespace SnakeGameUI.UserControls
             InitializeComponent();
 
             game = new GameLogic(playerName);
+            // abonare eveniment
+            game.GameEndedEvent += Game_GameEndedEvent;
             this.DataContext = game;
 
             this.IsVisibleChanged += GameUserControl_IsVisibleChanged;
-            
+
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(50);
             timer.Tick += Timer_Tick;
             timer.Start();
+        }
+
+        // event handler (se declanseaza cand se intampla evenimentul)
+        private void Game_GameEndedEvent()
+        {
+            MessageBox.Show("Game Ended");
+
+            (App.Current.MainWindow as MainWindow).ShowStartMenu();
         }
 
         private void GameUserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -60,13 +70,13 @@ namespace SnakeGameUI.UserControls
         {
             MoveSnake();
             DrawSnake();
-            
+
         }
 
         private void DrawSnake()
         {
             canvasSnake.Children.Clear();
-            foreach(List<Point> points in game.snakepoints)
+            foreach (List<Point> points in game.snakepoints)
             {
                 Polyline snakeLine = new Polyline();
                 snakeLine.Stroke = Brushes.Red;
