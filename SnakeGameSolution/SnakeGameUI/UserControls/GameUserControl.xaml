@@ -17,7 +17,7 @@
                 <Canvas Name="canvasItem" Background="Black" 
                 Width="{Binding Path=AreaWidth}"
                 Height="{Binding Path=AreaHeight}">
-                    <Ellipse Fill="Red" Width="12" Height="12" Canvas.Left="{Binding Path = ItemLeft}"
+                    <Ellipse Fill="Red" Width="{Binding Path=ItemSize}" Height="{Binding Path=ItemSize}" Canvas.Left="{Binding Path = ItemLeft}"
                          Canvas.Top="{Binding Path = ItemTop}"></Ellipse>
 
                 </Canvas>

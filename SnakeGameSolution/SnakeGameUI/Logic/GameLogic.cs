@@ -110,11 +110,36 @@ namespace SnakeGameUI.Logic
         private int movementUnit = 10;
         private int errormargin = 8;
 
+
+        public int ItemSize
+        {
+            get { return (int)GetValue(ItemSizeProperty); }
+            set { SetValue(ItemSizeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemSize.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemSizeProperty =
+            DependencyProperty.Register("ItemSize", typeof(int), typeof(GameLogic), new PropertyMetadata(12));
+
+        private void EatFood(List<Point> headpoints, Point headPoint, Point newPoint)
+        {
+            if (headPoint.X >= this.ItemLeft 
+                && headPoint.X <= this.ItemLeft + ItemSize 
+                && headPoint.Y >= this.ItemTop 
+                && headPoint.Y <= this.ItemTop + ItemSize)
+            {
+                GenerateItem();
+                headpoints.Insert(0, newPoint);
+                this.Score += 10;
+            }
+        }
+
         internal void MoveSnakeUp()
         {
             List<Point> headpoints = snakepoints.First();
             List<Point> tailpoints = snakepoints.Last();
             Point headPoint = headpoints.First();
+
             // add new point
             Point newPoint = new Point(headPoint.X, headPoint.Y - movementUnit);
 
@@ -149,13 +174,7 @@ namespace SnakeGameUI.Logic
                 tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (headPoint.X >= this.ItemLeft - errormargin && headPoint.X <= this.ItemLeft + errormargin
-                && headPoint.Y >= this.ItemTop - errormargin && headPoint.Y <= this.ItemTop + errormargin)
-            {
-                GenerateItem();
-                headpoints.Insert(0, newPoint);
-                this.Score += 10;
-            }
+            EatFood(headpoints, headPoint, newPoint);
 
         }
 
@@ -164,6 +183,7 @@ namespace SnakeGameUI.Logic
             List<Point> headpoints = snakepoints.First();
             List<Point> tailpoints = snakepoints.Last();
             Point headPoint = headpoints.First();
+
             // add new point
             Point newPoint = new Point(headPoint.X, headPoint.Y + movementUnit);
 
@@ -198,13 +218,7 @@ namespace SnakeGameUI.Logic
                 tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (headPoint.X >= this.ItemLeft - errormargin && headPoint.X <= this.ItemLeft + errormargin
-                && headPoint.Y >= this.ItemTop - errormargin && headPoint.Y <= this.ItemTop + errormargin)
-            {
-                GenerateItem();
-                headpoints.Insert(0, newPoint);
-                this.Score += 10;
-            }
+            EatFood(headpoints, headPoint, newPoint);
         }
 
         internal void MoveSnakeRight()
@@ -212,6 +226,7 @@ namespace SnakeGameUI.Logic
             List<Point> headpoints = snakepoints.First();
             List<Point> tailpoints = snakepoints.Last();
             Point headPoint = headpoints.First();
+
             // add new point
             Point newPoint = new Point(headPoint.X + movementUnit, headPoint.Y);
 
@@ -246,13 +261,7 @@ namespace SnakeGameUI.Logic
                 tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (headPoint.X >= this.ItemLeft - errormargin && headPoint.X <= this.ItemLeft + errormargin
-                && headPoint.Y >= this.ItemTop - errormargin && headPoint.Y <= this.ItemTop + errormargin)
-            {
-                GenerateItem();
-                headpoints.Insert(0, newPoint);
-                this.Score += 10;
-            }
+            EatFood(headpoints, headPoint, newPoint);
         }
 
         internal void MoveSnakeLeft()
@@ -260,6 +269,7 @@ namespace SnakeGameUI.Logic
             List<Point> headpoints = snakepoints.First();
             List<Point> tailpoints = snakepoints.Last();
             Point headPoint = headpoints.First();
+
             // add new point
             Point newPoint = new Point(headPoint.X - movementUnit, headPoint.Y);
 
@@ -294,13 +304,8 @@ namespace SnakeGameUI.Logic
                 tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (headPoint.X >= this.ItemLeft - errormargin && headPoint.X <= this.ItemLeft + errormargin
-                && headPoint.Y >= this.ItemTop - errormargin && headPoint.Y <= this.ItemTop + errormargin)
-            {
-                GenerateItem();
-                headpoints.Insert(0, newPoint);
-                this.Score += 10;
-            }
+            EatFood(headpoints, headPoint, newPoint);
+
         }
 
     }
