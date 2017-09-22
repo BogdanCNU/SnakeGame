@@ -142,11 +142,6 @@ namespace SnakeGameUI.Logic
             {
                 if (check.doLinesIntersect(headpoint, nextAfterHeadpoint, headpoints[i], headpoints[i + 1]))
                 {
-                    Debug.WriteLine("Collision: ");
-                    Debug.WriteLine(headpoint.X + " " + headpoint.Y);
-                    Debug.WriteLine(nextAfterHeadpoint.X + " " + nextAfterHeadpoint.Y);
-                    Debug.WriteLine(headpoints[i].X + " " + headpoints[i].Y);
-                    Debug.WriteLine(headpoints[i + 1].X + " " + headpoints[i + 1].Y);
                     return true;
                 }
             }
@@ -158,127 +153,74 @@ namespace SnakeGameUI.Logic
                 {
                     if (check.doLinesIntersect(headpoint, nextAfterHeadpoint, points[j], points[j + 1]))
                     {
-                        Debug.WriteLine("Collision: ");
-                        Debug.WriteLine(headpoint.X + " " + headpoint.Y);
-                        Debug.WriteLine(nextAfterHeadpoint.X + " " + nextAfterHeadpoint.Y);
-                        Debug.WriteLine(points[i].X + " " + points[i].Y);
-                        Debug.WriteLine(points[i + 1].X + " " + points[i + 1].Y);
                         return true;
                     }
                 }
             }
 
-
-
             return false;
-            //foreach (List<Point> points in snakepoints)
-            //{
-            //    for (int i = 0; i < points.Count - 1; i++)
-            //        check.doLinesIntersect(headPoint, newPoint, points[i], points[i + 1]);
-            //}
+        }
+
+        internal void MoveSnakeVertical(int movement, double yCoordAtEntry, double yCoordAtExit)
+        {
+            List<Point> headpoints = snakepoints.First();
+            List<Point> tailpoints = snakepoints.Last();
+            Point headPoint = headpoints.First();
+
+            // add new point
+            Point newPoint = new Point(headPoint.X, headPoint.Y + movement);
+
+
+
+            if (newPoint.Y > 0 && newPoint.Y < AreaHeight)
+            {
+                headpoints.Insert(0, newPoint);
+            }
+            else
+            {
+                // modificare ultim punct pana in capat
+                Point pointToScreenMargin = new Point(headPoint.X, yCoordAtExit);
+                headpoints.Insert(0, pointToScreenMargin);
+
+                // punct nou generat in celalat capat al ecranului
+                newPoint.Y = yCoordAtEntry;
+
+                // linie generata in celalat capat al ecranului
+                Point additionalpoint = new Point(newPoint.X, newPoint.Y + movement);
+                List<Point> newpoints = new List<Point>();
+                newpoints.Add(additionalpoint);
+                newpoints.Add(newPoint);
+                snakepoints.Insert(0, newpoints);
+                tailpoints.RemoveAt(tailpoints.Count - 1);
+            }
+
+            if (EatFood(headpoints, headPoint, newPoint) == false)
+            {
+                if (tailpoints.Count == 2)
+                {
+                    snakepoints.Remove(tailpoints);
+                }
+                else
+                {
+                    tailpoints.RemoveAt(tailpoints.Count - 1);
+                }
+            }
+
+            if (IsGameOver())
+            {
+                MessageBox.Show("GameOver");
+            }
+
         }
 
         internal void MoveSnakeUp()
         {
-            List<Point> headpoints = snakepoints.First();
-            List<Point> tailpoints = snakepoints.Last();
-            Point headPoint = headpoints.First();
-
-            // add new point
-            Point newPoint = new Point(headPoint.X, headPoint.Y - movementUnit);
-
-
-
-            if (newPoint.Y > 0 && newPoint.Y < AreaHeight)
-            {
-                headpoints.Insert(0, newPoint);
-            }
-            else
-            {
-                // modificare ultim punct pana in capat
-                Point pointToScreenMargin = new Point(headPoint.X, 0);
-                headpoints.Insert(0, pointToScreenMargin);
-
-                // punct nou generat in celalat capat al ecranului
-                newPoint.Y = AreaHeight;
-
-                // linie generata in celalat capat al ecranului
-                Point additionalpoint = new Point(newPoint.X, newPoint.Y - movementUnit);
-                List<Point> newpoints = new List<Point>();
-                newpoints.Add(additionalpoint);
-                newpoints.Add(newPoint);
-                snakepoints.Insert(0, newpoints);
-                tailpoints.RemoveAt(tailpoints.Count - 1);
-            }
-
-            if (EatFood(headpoints, headPoint, newPoint) == false)
-            {
-                if (tailpoints.Count == 2)
-                {
-                    snakepoints.Remove(tailpoints);
-                }
-                else
-                {
-                    tailpoints.RemoveAt(tailpoints.Count - 1);
-                }
-            }
-
-            if (IsGameOver())
-            {
-                MessageBox.Show("GameOver");
-            }
-
+            MoveSnakeVertical(-movementUnit, 0, AreaHeight);
         }
-
-       
 
         internal void MoveSnakeDown()
         {
-            List<Point> headpoints = snakepoints.First();
-            List<Point> tailpoints = snakepoints.Last();
-            Point headPoint = headpoints.First();
-
-            // add new point
-            Point newPoint = new Point(headPoint.X, headPoint.Y + movementUnit);
-
-            if (newPoint.Y > 0 && newPoint.Y < AreaHeight)
-            {
-                headpoints.Insert(0, newPoint);
-            }
-            else
-            {
-                // modificare ultim punct pana in capat
-                Point pointToScreenMargin = new Point(headPoint.X, this.AreaHeight);
-                headpoints.Insert(0, pointToScreenMargin);
-
-                // punct nou generat in celalat capat al ecranului
-                newPoint.Y = 0;
-
-                // linie generata in celalat capat al ecranului
-                Point additionalpoint = new Point(newPoint.X, newPoint.Y + movementUnit);
-                List<Point> newpoints = new List<Point>();
-                newpoints.Add(additionalpoint);
-                newpoints.Add(newPoint);
-                snakepoints.Insert(0, newpoints);
-                tailpoints.RemoveAt(tailpoints.Count - 1);
-            }
-
-            if (EatFood(headpoints, headPoint, newPoint) == false)
-            {
-                if (tailpoints.Count == 2)
-                {
-                    snakepoints.Remove(tailpoints);
-                }
-                else
-                {
-                    tailpoints.RemoveAt(tailpoints.Count - 1);
-                }
-            }
-
-            if (IsGameOver())
-            {
-                MessageBox.Show("GameOver");
-            }
+            MoveSnakeVertical(movementUnit, AreaHeight, 0);
         }
 
         internal void MoveSnakeRight()
