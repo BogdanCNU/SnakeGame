@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,6 @@ namespace SnakeGameUI.Logic
 {
     public class GameLogic : DependencyObject
     {
-
         public List<List<Point>> snakepoints { get; set; }
 
         public string PlayerName
@@ -90,10 +90,7 @@ namespace SnakeGameUI.Logic
             snakepoints = new List<List<Point>>();
             List<Point> points = new List<Point>();
             points.Add(new Point(100, 100));
-            points.Add(new Point(110, 100));
-            points.Add(new Point(120, 100));
-            points.Add(new Point(130, 100));
-            points.Add(new Point(140, 100));
+            points.Add(new Point(100, 200));
 
             this.snakepoints.Add(points);
             GenerateItem();
@@ -108,8 +105,6 @@ namespace SnakeGameUI.Logic
         }
 
         private int movementUnit = 10;
-        private int errormargin = 8;
-
 
         public int ItemSize
         {
@@ -121,17 +116,66 @@ namespace SnakeGameUI.Logic
         public static readonly DependencyProperty ItemSizeProperty =
             DependencyProperty.Register("ItemSize", typeof(int), typeof(GameLogic), new PropertyMetadata(12));
 
-        private void EatFood(List<Point> headpoints, Point headPoint, Point newPoint)
+        private bool EatFood(List<Point> headpoints, Point headPoint, Point newPoint)
         {
-            if (headPoint.X >= this.ItemLeft 
-                && headPoint.X <= this.ItemLeft + ItemSize 
-                && headPoint.Y >= this.ItemTop 
+            if (headPoint.X >= this.ItemLeft
+                && headPoint.X <= this.ItemLeft + ItemSize
+                && headPoint.Y >= this.ItemTop
                 && headPoint.Y <= this.ItemTop + ItemSize)
             {
                 GenerateItem();
-                headpoints.Insert(0, newPoint);
                 this.Score += 10;
+                return true;
             }
+            return false;
+        }
+
+        private bool IsGameOver()
+        {
+            IntersctionChecker check = new IntersctionChecker();
+
+            List<Point> headpoints = snakepoints.First();
+            Point headpoint = headpoints[0];
+            Point nextAfterHeadpoint = headpoints[1];
+
+            for (int i = 2; i < headpoints.Count - 1; i++)
+            {
+                if (check.doLinesIntersect(headpoint, nextAfterHeadpoint, headpoints[i], headpoints[i + 1]))
+                {
+                    Debug.WriteLine("Collision: ");
+                    Debug.WriteLine(headpoint.X + " " + headpoint.Y);
+                    Debug.WriteLine(nextAfterHeadpoint.X + " " + nextAfterHeadpoint.Y);
+                    Debug.WriteLine(headpoints[i].X + " " + headpoints[i].Y);
+                    Debug.WriteLine(headpoints[i + 1].X + " " + headpoints[i + 1].Y);
+                    return true;
+                }
+            }
+
+            for (int i = 1; i < snakepoints.Count; i++)
+            {
+                List<Point> points = snakepoints[i];
+                for (int j = 0; j < points.Count - 1; j++)
+                {
+                    if (check.doLinesIntersect(headpoint, nextAfterHeadpoint, points[j], points[j + 1]))
+                    {
+                        Debug.WriteLine("Collision: ");
+                        Debug.WriteLine(headpoint.X + " " + headpoint.Y);
+                        Debug.WriteLine(nextAfterHeadpoint.X + " " + nextAfterHeadpoint.Y);
+                        Debug.WriteLine(points[i].X + " " + points[i].Y);
+                        Debug.WriteLine(points[i + 1].X + " " + points[i + 1].Y);
+                        return true;
+                    }
+                }
+            }
+
+
+
+            return false;
+            //foreach (List<Point> points in snakepoints)
+            //{
+            //    for (int i = 0; i < points.Count - 1; i++)
+            //        check.doLinesIntersect(headPoint, newPoint, points[i], points[i + 1]);
+            //}
         }
 
         internal void MoveSnakeUp()
@@ -142,6 +186,8 @@ namespace SnakeGameUI.Logic
 
             // add new point
             Point newPoint = new Point(headPoint.X, headPoint.Y - movementUnit);
+
+
 
             if (newPoint.Y > 0 && newPoint.Y < AreaHeight)
             {
@@ -165,18 +211,26 @@ namespace SnakeGameUI.Logic
                 tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (tailpoints.Count == 2)
+            if (EatFood(headpoints, headPoint, newPoint) == false)
             {
-                snakepoints.Remove(tailpoints);
-            }
-            else
-            {
-                tailpoints.RemoveAt(tailpoints.Count - 1);
+                if (tailpoints.Count == 2)
+                {
+                    snakepoints.Remove(tailpoints);
+                }
+                else
+                {
+                    tailpoints.RemoveAt(tailpoints.Count - 1);
+                }
             }
 
-            EatFood(headpoints, headPoint, newPoint);
+            if (IsGameOver())
+            {
+                MessageBox.Show("GameOver");
+            }
 
         }
+
+       
 
         internal void MoveSnakeDown()
         {
@@ -209,16 +263,22 @@ namespace SnakeGameUI.Logic
                 tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (tailpoints.Count == 2)
+            if (EatFood(headpoints, headPoint, newPoint) == false)
             {
-                snakepoints.Remove(tailpoints);
-            }
-            else
-            {
-                tailpoints.RemoveAt(tailpoints.Count - 1);
+                if (tailpoints.Count == 2)
+                {
+                    snakepoints.Remove(tailpoints);
+                }
+                else
+                {
+                    tailpoints.RemoveAt(tailpoints.Count - 1);
+                }
             }
 
-            EatFood(headpoints, headPoint, newPoint);
+            if (IsGameOver())
+            {
+                MessageBox.Show("GameOver");
+            }
         }
 
         internal void MoveSnakeRight()
@@ -252,16 +312,22 @@ namespace SnakeGameUI.Logic
                 tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (tailpoints.Count == 2)
+            if (EatFood(headpoints, headPoint, newPoint) == false)
             {
-                snakepoints.Remove(tailpoints);
-            }
-            else
-            {
-                tailpoints.RemoveAt(tailpoints.Count - 1);
+                if (tailpoints.Count == 2)
+                {
+                    snakepoints.Remove(tailpoints);
+                }
+                else
+                {
+                    tailpoints.RemoveAt(tailpoints.Count - 1);
+                }
             }
 
-            EatFood(headpoints, headPoint, newPoint);
+            if (IsGameOver())
+            {
+                MessageBox.Show("GameOver");
+            }
         }
 
         internal void MoveSnakeLeft()
@@ -295,16 +361,22 @@ namespace SnakeGameUI.Logic
                 tailpoints.RemoveAt(tailpoints.Count - 1);
             }
 
-            if (tailpoints.Count == 2)
+            if (EatFood(headpoints, headPoint, newPoint) == false)
             {
-                snakepoints.Remove(tailpoints);
-            }
-            else
-            {
-                tailpoints.RemoveAt(tailpoints.Count - 1);
+                if (tailpoints.Count == 2)
+                {
+                    snakepoints.Remove(tailpoints);
+                }
+                else
+                {
+                    tailpoints.RemoveAt(tailpoints.Count - 1);
+                }
             }
 
-            EatFood(headpoints, headPoint, newPoint);
+            if (IsGameOver())
+            {
+                MessageBox.Show("GameOver");
+            }
 
         }
 

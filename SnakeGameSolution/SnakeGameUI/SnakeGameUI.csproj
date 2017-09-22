@@ -54,6 +54,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="IntersctionChecker.cs" />
     <Compile Include="Logic\GameLogic.cs" />
     <Compile Include="UserControls\GameUserControl.xaml.cs">
       <DependentUpon>GameUserControl.xaml</DependentUpon>
